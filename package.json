@@ -1,0 +1,24 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "Simple REST API with Hapi.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/b-dger/rest-api-testing-1.git"
+  },
+  "keywords": [],
+  "author": "Badger",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/b-dger/rest-api-testing-1/issues"
+  },
+  "homepage": "https://github.com/b-dger/rest-api-testing-1#readme",
+  "dependencies": {
+    "@hapi/hapi": "^21.4.3"
+  }
+}

@@ -5,7 +5,7 @@ module.exports = [
     method: 'GET',
     path: '/gened/{category_code}',
     handler: (request, h) => {
-      return request.params.category_code; // e.g., MAT, HUM, etc.
+      return request.params.category_code;
     }
   }
 ];

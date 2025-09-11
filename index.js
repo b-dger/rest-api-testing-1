@@ -11,18 +11,14 @@ const init = async () => {
     host: 'localhost'
   });
 
-  // Dynamic route loading
   let routes = [];
-  const routesPath = path.join(__dirname, 'routes'); // path to routes folder
+  const routesPath = path.join(__dirname, 'routes');
 
-  // Only load .js files to avoid non-iterable errors
   fs.readdirSync(routesPath)
     .filter(file => file.endsWith('.js'))
     .forEach(file => {
       const filePath = path.join(routesPath, file);
       const routeModule = require(filePath);
-
-      // Ensure it's an array before spreading
       if (Array.isArray(routeModule)) {
         routes.push(...routeModule);
       } else {
@@ -30,7 +26,6 @@ const init = async () => {
       }
     });
 
-  // Register all routes
   server.route(routes);
 
   await server.start();

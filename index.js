@@ -13,13 +13,22 @@ const init = async () => {
 
   // Dynamic route loading
   let routes = [];
-  const routesPath = path.join(__dirname, 'routes'); // full path to /routes folder
+  const routesPath = path.join(__dirname, 'routes'); // path to routes folder
 
-  fs.readdirSync(routesPath).forEach((file) => {
-    const filePath = path.join(routesPath, file);
-    const routeModule = require(filePath); // each file exports an array
-    routes.push(...routeModule); // spread syntax adds all routes
-  });
+  // Only load .js files to avoid non-iterable errors
+  fs.readdirSync(routesPath)
+    .filter(file => file.endsWith('.js'))
+    .forEach(file => {
+      const filePath = path.join(routesPath, file);
+      const routeModule = require(filePath);
+
+      // Ensure it's an array before spreading
+      if (Array.isArray(routeModule)) {
+        routes.push(...routeModule);
+      } else {
+        console.warn(`Warning: ${file} does not export an array`);
+      }
+    });
 
   // Register all routes
   server.route(routes);

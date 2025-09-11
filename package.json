@@ -19,6 +19,9 @@
   },
   "homepage": "https://github.com/b-dger/rest-api-testing-1#readme",
   "dependencies": {
-    "@hapi/hapi": "^21.4.3"
+    "@hapi/hapi": "^21.4.3",
+    "@hapi/joi": "^17.1.1",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
   }
 }

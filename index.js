@@ -1,6 +1,9 @@
 'use strict';
 
 const Hapi = require('@hapi/hapi');
+const Joi = require('@hapi/joi');
+const path = require('path');
+const fs = require('fs');
 
 const init = async () => {
   const server = Hapi.server({
@@ -8,32 +11,25 @@ const init = async () => {
     host: 'localhost'
   });
 
-  // GET route
-  server.route({
-    method: 'GET',
-    path: '/',
-    handler: (request, h) => {
-      const name = request.query.name || "Guest";
-      return `Hello, ${name}!`;
-    }
+  // Dynamic route loading
+  let routes = [];
+  const routesPath = path.join(__dirname, 'routes'); // full path to /routes folder
+
+  fs.readdirSync(routesPath).forEach((file) => {
+    const filePath = path.join(routesPath, file);
+    const routeModule = require(filePath); // each file exports an array
+    routes.push(...routeModule); // spread syntax adds all routes
   });
 
-  // POST route
-  server.route({
-    method: 'POST',
-    path: '/',
-    handler: (request, h) => {
-      console.log("Received body:", request.payload);
-      return { message: "Data received", data: request.payload };
-    }
-  });
+  // Register all routes
+  server.route(routes);
 
   await server.start();
   console.log('Server running on %s', server.info.uri);
 };
 
 process.on('unhandledRejection', (err) => {
-  console.log(err);
+  console.error(err);
   process.exit(1);
 });
 
